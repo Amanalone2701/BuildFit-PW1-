@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head><%- include('partials/head') %></head>
+<body class="d-flex align-items-center justify-content-center vh-100">
+    <div class="glass-card text-center" style="width: 100%; max-width: 400px;">
+        <h1 class="text-gradient fw-bold mb-3" style="font-size: 3.5rem;">BuildFit</h1>
+        <p class="text-white mb-4 fw-bold">Criar Conta</p>
+        <form action="/cadastro" method="POST">
+            <input type="text" name="nome" class="form-control mb-3 bg-dark text-white border-secondary p-3" placeholder="Seu Nome Completo" required>
+            <input type="email" name="email" class="form-control mb-3 bg-dark text-white border-secondary p-3" placeholder="Seu melhor E-mail" required>
+            
+            <div class="input-group mb-3">
+                <input type="password" id="cadSenha" name="senha" class="form-control bg-dark text-white border-secondary p-3" placeholder="Crie uma Senha" required>
+                <span class="input-group-text" onclick="toggleSenha('cadSenha')">👁️</span>
+            </div>
+
+            <div class="input-group mb-3">
+                <input type="password" id="cadConfirma" name="confirmaSenha" class="form-control bg-dark text-white border-secondary p-3" placeholder="Confirme a Senha" required>
+                <span class="input-group-text" onclick="toggleSenha('cadConfirma')">👁️</span>
+            </div>
+
+            <button type="submit" class="btn btn-gradient w-100 fw-bold p-2 mt-2">Cadastrar</button>
+        </form>
+        <a href="/" class="d-block mt-4 text-secondary text-decoration-none small">Já tem uma conta? Faça Login</a>
+    </div>
+    <script src="/js/main.js"></script>
+</body>
+</html>

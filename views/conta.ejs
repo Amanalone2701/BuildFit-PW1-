@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head><%- include('partials/head') %></head>
+<body>
+    <header class="p-3 d-flex justify-content-center align-items-center border-bottom border-secondary position-relative">
+        <a href="/inicial" class="text-danger text-decoration-none fw-bold position-absolute start-0 ms-4">&larr; Voltar</a>
+        <h1 class="text-gradient fw-bold m-0" style="font-size: 3rem;">BuildFit</h1>
+    </header>
+
+    <div class="container mt-5">
+        <h2 class="text-center mb-4">Seu perfil</h2>
+        <div class="glass-card mx-auto" style="max-width: 600px;">
+            <h5 class="mb-4">Sua conta</h5>
+            
+            <div class="d-flex align-items-center justify-content-between border-bottom border-secondary pb-3 mb-3">
+                <div class="d-flex align-items-center">
+                    <img id="profilePreview" src="<%= conta.perfil.foto %>" class="rounded-circle me-3" style="width: 60px; height: 60px; object-fit: cover;">
+                    <p class="mb-0 fw-bold">Sua foto</p>
+                </div>
+                <label class="btn btn-outline-light btn-sm">Fazer upload<input type="file" id="fotoInput" hidden accept="image/*"></label>
+            </div>
+
+            <div class="d-flex justify-content-between align-items-center border-bottom border-secondary pb-3 mb-3">
+                <div><small class="text-secondary d-block">Nome</small><span><%= conta.user.nome %></span></div>
+                <button class="btn btn-outline-light btn-sm" onclick="atualizarPerfilCampo('nome')">Editar</button>
+            </div>
+
+            <div class="d-flex justify-content-between align-items-center border-bottom border-secondary pb-3 mb-3">
+                <div><small class="text-secondary d-block">E-mail</small><span><%= conta.user.email %></span></div>
+                <button class="btn btn-outline-light btn-sm" onclick="atualizarPerfilCampo('email')">Editar</button>
+            </div>
+
+            <div class="d-flex justify-content-between align-items-center">
+                <div><small class="text-secondary d-block">Senha</small><span>••••••••</span></div>
+                <button class="btn btn-outline-light btn-sm" onclick="abrirModalSenha()">Editar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL SENHA -->
+    <div id="modalSenha" class="custom-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="m-0 fw-bold">Alterar Senha</h5>
+                <span class="close-modal" onclick="fecharModalSenha()">&times;</span>
+            </div>
+            
+            <div class="input-group mb-3">
+                <input type="password" id="sAtual" class="form-control bg-dark text-white border-secondary" placeholder="Senha Atual">
+                <span class="input-group-text" onclick="toggleSenha('sAtual')">👁️</span>
+            </div>
+            <div class="input-group mb-3">
+                <input type="password" id="sNova" class="form-control bg-dark text-white border-secondary" placeholder="Nova Senha">
+                <span class="input-group-text" onclick="toggleSenha('sNova')">👁️</span>
+            </div>
+            <div class="input-group mb-3">
+                <input type="password" id="sConfirma" class="form-control bg-dark text-white border-secondary" placeholder="Confirme a Nova">
+                <span class="input-group-text" onclick="toggleSenha('sConfirma')">👁️</span>
+            </div>
+            <button class="btn btn-gradient w-100" onclick="salvarNovaSenha()">Salvar</button>
+        </div>
+    </div>
+
+    <script src="/js/main.js"></script>
+</body>
+</html>

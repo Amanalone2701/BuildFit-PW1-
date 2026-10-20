@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head><%- include('partials/head') %></head>
+<body>
+    <header class="p-3 d-flex justify-content-center align-items-center border-bottom border-secondary position-relative">
+        <h1 class="text-gradient fw-bold m-0" style="font-size: 3rem;">BuildFit</h1>
+        <a href="/conta" class="text-white text-decoration-none d-flex align-items-center position-absolute end-0 me-4">
+            <img src="<%= conta.perfil.foto %>" class="rounded-circle border border-warning me-2" style="width: 40px; height: 40px; object-fit: cover;">
+            <span>Conta</span>
+        </a>
+    </header>
+
+    <div class="container-fluid mt-4">
+        <div class="row gap-3 px-3">
+            <!-- Esquerda -->
+            <div class="col-md glass-card">
+                <h5 class="mb-3">BIBLIOTECA</h5>
+                <div class="d-flex justify-content-between align-items-center mt-4">
+                    <h6 class="text-gradient m-0">Tipos de Treino</h6>
+                    <button class="btn btn-sm btn-outline-light" onclick="adicionarNovo('treino')">+ Adicionar</button>
+                </div>
+                <div class="d-flex flex-wrap gap-2 mt-2" id="lista-treinos">
+                    <%- conta.estadoConstrutor.htmlTreinos || '<div class="drag-item" draggable="true"><span>Superior</span> <button class="btn-delete" onclick="event.stopPropagation(); deletarElemento(this)">x</button></div>' %>
+                </div>
+
+                <div class="d-flex justify-content-between align-items-center mt-5">
+                    <h6 class="text-gradient m-0">Banco de Exercícios</h6>
+                    <button class="btn btn-sm btn-outline-light" onclick="adicionarNovo('exercicio')">+ Adicionar</button>
+                </div>
+                <div class="d-flex flex-wrap gap-2 mt-2" id="lista-exercicios">
+                    <%- conta.estadoConstrutor.htmlExercicios || `<div class="drag-item exercicio-item" draggable="true" onclick="abrirModal(this, 'Peck Deck', 'Peito', 'https://www.youtube.com/embed/cZ75YmWYTgQ?autoplay=1&amp;mute=1&amp;loop=1&amp;playlist=cZ75YmWYTgQ')"><span>Peck Deck</span> <span class="timer-display text-warning ms-2" style="display:none; font-size:12px;"></span> <button class="btn-delete" onclick="event.stopPropagation(); deletarElemento(this)">x</button></div>` %>
+                </div>
+            </div>
+
+            <!-- Direita -->
+            <div class="col-md glass-card">
+                <h5 class="mb-3">SEU CRONOGRAMA SEMANAL (Alvo)</h5>
+                <table class="table table-dark table-bordered text-center" id="tabela-cronograma">
+                    <%- conta.estadoConstrutor.htmlCronograma || '<thead><tr><th>SEG</th><th>TER</th><th>QUA</th><th>QUI</th><th>SEX</th></tr></thead><tbody><tr><td><div class="drop-zone"></div></td><td><div class="drop-zone"></div></td><td><div class="drop-zone"></div></td><td><div class="drop-zone"></div></td><td><div class="drop-zone"></div></td></tr></tbody>' %>
+                </table>
+
+                <div class="d-flex justify-content-between align-items-center mt-5 mb-3">
+                    <h5 class="m-0">SEU TREINO PREENCHIDO</h5>
+                    <button class="btn btn-sm btn-outline-light" onclick="adicionarNovo('coluna-treino')">+ Adicionar Tipo de Treino na Tabela</button>
+                </div>
+                
+                <div class="table-responsive">
+                    <table class="table table-dark table-borderless" id="tabela-treino-preenchido">
+                        <%- conta.estadoConstrutor.htmlTreinoPreenchido || '<thead><tr id="linha-treinos"><th><div class="p-2 border border-secondary text-center">Treino A <button class="btn-delete" onclick="deletarColunaTreino(this)">x</button></div></th><th><div class="p-2 border border-secondary text-center">Treino B <button class="btn-delete" onclick="deletarColunaTreino(this)">x</button></div></th></tr></thead><tbody><tr id="linha-drop-exercicios"><td><div class="drop-zone mt-2"></div></td><td><div class="drop-zone mt-2"></div></td></tr></tbody>' %>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL DO EXERCÍCIO COM CONTAINER SEGURO PARA O IFRAME -->
+    <div id="exerciseModal" class="custom-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="m-0 text-gradient fw-bold" id="modalNome">Nome</h5>
+                <span class="close-modal" onclick="fecharModal()">&times;</span>
+            </div>
+            
+            <!-- Esta div receberá o Iframe dinamicamente sem quebrar a tela -->
+            <div id="videoContainer" class="w-100 mb-3" style="height: 200px; background: #000; border-radius: 8px; overflow: hidden;"></div>
+            
+            <p class="text-warning fw-bold mb-2">💪 <span id="modalArea">Área</span></p>
+            <div class="d-flex justify-content-between mb-3 text-center">
+                <div><small class="text-secondary d-block">Séries</small><input type="number" class="form-control bg-dark text-white border-secondary p-1 text-center" value="4"></div>
+                <div><small class="text-secondary d-block">Reps</small><input type="number" class="form-control bg-dark text-white border-secondary p-1 text-center" value="15"></div>
+                <div><small class="text-secondary d-block">Carga (kg)</small><input type="number" class="form-control bg-dark text-white border-secondary p-1 text-center" value="40"></div>
+            </div>
+            <div class="text-center mt-3 border-top border-secondary pt-3">
+                <small class="text-secondary d-block mb-1">Tempo de Descanso (seg)</small>
+                <div class="d-flex justify-content-center align-items-center gap-2">
+                    <input type="number" id="inputTempoDescanso" class="form-control bg-dark text-white border-secondary p-1 text-center" value="75" style="width: 70px;">
+                    <button class="btn btn-warning fw-bold" id="btnToggleTimer" onclick="toggleTimer()">▶</button>
+                </div>
+                <h3 class="m-0 text-white mt-2" id="timerModalDisplay">00:00</h3>
+            </div>
+        </div>
+    </div>
+    <script src="/js/main.js"></script>
+</body>
+</html>

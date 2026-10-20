@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head><%- include('partials/head') %></head>
+<body class="d-flex align-items-center justify-content-center vh-100">
+    <div class="glass-card text-center" style="width: 100%; max-width: 400px;">
+        <h1 class="text-gradient fw-bold mb-4" style="font-size: 3.5rem;">BuildFit</h1>
+        <p class="text-secondary mb-4">Entrar na sua conta</p>
+        <form action="/login" method="POST">
+            <input type="email" name="email" class="form-control mb-3 bg-dark text-white border-secondary p-3" placeholder="Digite seu e-mail cadastrado" required>
+            <div class="input-group mb-4">
+                <input type="password" id="loginSenha" name="senha" class="form-control bg-dark text-white border-secondary p-3" placeholder="Digite sua senha" required>
+                <span class="input-group-text" onclick="toggleSenha('loginSenha')">👁️</span>
+            </div>
+            <button type="submit" class="btn btn-gradient w-100 fw-bold p-2">Entrar</button>
+        </form>
+        <a href="/cadastro" class="d-block mt-4 text-secondary text-decoration-none small">Não tem uma conta? Cadastre-se</a>
+    </div>
+    <script src="/js/main.js"></script>
+</body>
+</html>
